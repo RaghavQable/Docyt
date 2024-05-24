@@ -212,6 +212,7 @@ describe("Invoice Queue", () => {
         const current_date = time_helper.get_current_date_of_month();
         const last_date_of_month = time_helper.get_last_date_of_current_month();
         const amount = number_helper.get_random_number(100000);
+        const checkNum = invoice_queue_page.get_random_number(100000);
         const invoice = {
             "invoice_number": invoice_number,
             "payee": data['vendor2']['name'],
@@ -232,8 +233,12 @@ describe("Invoice Queue", () => {
         cy.reload();
         invoice_queue_page.click_on_first_row_amount_data();
         invoice_queue_page.click_on_mark_as_paid_sub_option("Mark as paid","Manual Check");
-        invoice_queue_page.mark_as_paid_manual_flow();
+        add_edit_invoice.click_continue_button_from_multiple_unpaid_invoices_detected_page();
+        invoice_queue_page.mark_as_paid_manual_flow(checkNum);
         invoice_queue_page.check_register_flow();
+
+
+        
      })
 
 })

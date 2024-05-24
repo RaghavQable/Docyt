@@ -154,9 +154,9 @@ function click_on_mark_as_paid_sub_option(option,sub_option=''){
     cy.button_by_text(sub_option).click({ force: true })
 }
 
-function mark_as_paid_manual_flow(){
+function mark_as_paid_manual_flow(checkNumber){
     cy.input_by_id('estimated-date-input').type(getCurrentFormattedDate(2)).type('{enter}')
-    cy.input_by_placeholder('Enter Check Number').type(get_random_number(1000000))
+    cy.input_by_placeholder('Enter Check Number').type(checkNumber)
     cy.button_by_text('Mark as Paid').click();
 }
 
@@ -169,6 +169,9 @@ function check_register_flow()
     cy.span_by_anchor('Check Register',2).click({force:true});
     
 }
+
+
+
 
 module.exports = {
     verify_invoice_queue_page_displayed,
@@ -189,6 +192,7 @@ module.exports = {
     click_on_amount_sub_option,
     click_on_mark_as_paid_sub_option,
     mark_as_paid_manual_flow,
-    check_register_flow
+    check_register_flow,
+    get_random_number
 };
   
