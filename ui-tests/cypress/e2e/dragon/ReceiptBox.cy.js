@@ -82,4 +82,34 @@ describe("Receipt Box", () => {
         receipt_list_page.delete_receipt_with_amount(formatted_amount);
     })
 
+   it("C213284: Add new merchant",{ tags: '@smoke'}, ()=>
+    {
+    const merchant = data['vendor2']['name'];
+    const amount = number_helper.get_random_number(100000);
+    const formatted_amount = number_helper.get_formatted_amount(amount);
+    const current_date = time_helper.get_current_date_of_month();
+    const formatted_date = time_helper.get_formatted_date("MM/DD/YYYY");
+    const payment_account = "Cash";
+
+    const receipt =  {
+        merchant: merchant,
+        amount: amount,
+        formatted_amount: formatted_amount,
+        date: current_date,
+        formatted_date: formatted_date
+    }
+
+    login_page.login_and_navigate_to_business_path(data['email'], data['password'], "RECEIPT_BOX_RECEIPT_LIST", data['test_business1_id'])
+    receipt_list_page.verify_receipt_list_page_displayed();
+    receipt_list_page.click_add_receipt_button();
+    add_edit_receipt.verify_add_receipt_form_displayed();
+    add_edit_receipt.fill_add_receipt_form_and_submit(receipt);
+    cy.reload();
+    receipt_list_page.filter_by_amount(amount);
+    receipt_list_page.verify_receipt_exist_with_amount(formatted_amount);
+
+        
+})
+
+
 })
