@@ -1,0 +1,103 @@
+
+const tables = require("../../common/webtables/tables")
+
+function verify_invoice_queue_page_displayed() {
+    cy.h3_by_text('Invoice Queue').should('exist');
+    cy.button_by_containing_class('add-invoice-btn').should('exist');
+}
+
+function filter_by_invoice(invoice_number) {
+    cy.input_by_placeholder('Invoice#').clear().type(invoice_number);
+    cy.wait_until_disappear_div_loading_spinner();
+}
+
+function verify_invoice_exists(invoice_number) {
+    cy.any_match_table_heading_by_table_data('Invoice #', invoice_number).should('exist');
+}
+
+function verify_invoice_status(invoice_number, status) {
+    cy.any_match_table_data_by_corresponding_row_col('Invoice #', invoice_number, 'Status', status).should('exist');
+}
+
+function verify_payment_method(invoice_number, payment_method) {
+    cy.any_match_table_data_by_corresponding_row_col('Invoice #', invoice_number, 'Payment Method', payment_method).should('exist');
+}
+
+function verify_invoice_chart_of_account(invoice_number, chart_of_account) {
+    cy.any_match_table_data_by_corresponding_row_col('Invoice #', invoice_number, 'Chart Of Account', chart_of_account).should('exist');
+}
+
+function verify_add_invoice_button_enabled() {
+    cy.button_by_containing_class('add-invoice-btn').should('not.be.disabled');
+}
+
+function verify_preview_document(payee) {
+    cy.any_by_containing_class('preview-clickable').click();
+    cy.wait_until_visible_div_by_containing_class('preview-modal');
+    cy.any_by_containing_class('img-document').should('exist');
+    cy.span_by_text(payee).should('exist');
+}
+
+function close_preview_document_modal() {
+    cy.button_by_containing_class('close').click();
+}
+  
+function click_add_invoice_button() {
+    cy.button_by_containing_class('add-invoice-btn').click();
+}
+
+function createTableAlias() {
+    cy.xpath("//div[contains(@class, 'invoice-queue-list')]/table").as('invoice_queue_table')
+}
+
+function click_first_row_amount_dropdown_option(option, sub_option='') {
+    createTableAlias()
+    tables.verifyTotalRows('@invoice_queue_table', 1)
+    tables.clickLastCellFromFirstRow('@invoice_queue_table')
+    cy.wait(1000)
+    if(sub_option == ''){
+        cy.button_by_text(option).click()
+    }else{
+        cy.a_by_text(option).realHover();
+        cy.button_by_text(sub_option).click()
+    }
+    
+}
+
+function edit_invoice() {
+    click_first_row_amount_dropdown_option("Edit Invoice");
+    cy.get(`h4.modal-title:contains("Editing an approved or verified invoice")`).if()
+        .then(() => {
+            cy.button_by_text('Proceed').click();
+        }).else().then(() => {
+            cy.log("Invoice is not pushed to QBO"); 
+        });
+}
+
+function delete_invoice(invoice) {
+    filter_by_invoice(invoice)
+    click_first_row_amount_dropdown_option("Delete Invoice")
+    cy.h1_by_text('Delete Document').should('be.visible')
+    cy.button_by_text("Delete").should('be.visible').click()
+    cy.wait_until_disappear_div_loading_spinner();
+
+    // verify_invoice_deleted
+    tables.verifyTotalRows('@invoice_queue_table', 0)
+}
+
+module.exports = {
+    verify_invoice_queue_page_displayed,
+    filter_by_invoice,
+    verify_invoice_exists,
+    verify_invoice_status,
+    verify_payment_method,
+    verify_invoice_chart_of_account,
+    verify_add_invoice_button_enabled,
+    verify_preview_document,
+    close_preview_document_modal,
+    click_add_invoice_button,
+    edit_invoice,
+    delete_invoice,
+    click_first_row_amount_dropdown_option
+};
+  
