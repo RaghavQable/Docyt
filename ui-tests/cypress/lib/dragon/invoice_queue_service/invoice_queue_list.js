@@ -11,6 +11,11 @@ function filter_by_invoice(invoice_number) {
     cy.wait_until_disappear_div_loading_spinner();
 }
 
+function filter_by_check(check_number) {
+    cy.input_by_placeholder('Check #').clear().type(check_number);
+    cy.wait_until_disappear_div_loading_spinner();
+}
+
 function verify_invoice_exists(invoice_number) {
     cy.any_match_table_heading_by_table_data('Invoice #', invoice_number).should('exist');
 }
@@ -148,6 +153,10 @@ function click_on_amount_sub_option(option){
         cy.button_by_text(option).click()
 }
 
+function click_on_option_by_link(Option){
+    cy.wait(2000)
+    cy.a_by_containing_dot(Option).eq(0).click()
+}
 function click_on_mark_as_paid_sub_option(option,sub_option=''){
     cy.a_by_text(option).click({ force: true });
     cy.wait(2000)
@@ -174,6 +183,22 @@ function verify_check_num_first_raw_data_from_table(expected){
     return cy.get_first_raw_data_in_table('check-detail').should('contain.text', expected);
  }
 
+ function click_on_first_row_amount_more_option_button(){
+    cy.a_by_containing_id('payment').eq(0).scrollIntoView()
+    cy.wait(2000)
+    cy.a_by_containing_id('payment').eq(0).click()
+    }
+
+    function verify_cancel_payment_form_displayed() {
+        cy.h1_by_text('Cancel Payment').should('exist');
+    }
+
+    function click_on_confirm_button(){
+        cy.button_by_text("Confirm").should('be.visible').click();
+        cy.wait_until_disappear_div_loading_spinner();
+        cy.wait(2000)
+
+    }
 
 module.exports = {
     verify_invoice_queue_page_displayed,
@@ -196,6 +221,11 @@ module.exports = {
     mark_as_paid_manual_flow,
     check_register_flow,
     get_random_number,
-    verify_check_num_first_raw_data_from_table
+    verify_check_num_first_raw_data_from_table,
+    click_on_first_row_amount_more_option_button,
+    verify_cancel_payment_form_displayed,
+    click_on_confirm_button,
+    click_on_option_by_link,
+    filter_by_check
 };
   

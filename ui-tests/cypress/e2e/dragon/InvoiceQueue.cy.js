@@ -237,15 +237,19 @@ describe("Invoice Queue", () => {
         invoice_queue_page.mark_as_paid_manual_flow(checkNum);
         invoice_queue_page.check_register_flow();
         //invoice_queue_page.verify_check_num_first_raw_data_from_table(checkNum)
-    
 
+        invoice_queue_page.filter_by_check(checkNum)
+        invoice_queue_page.click_on_first_row_amount_more_option_button()
+        invoice_queue_page.click_on_option_by_link('Cancel Check')
+        invoice_queue_page.verify_cancel_payment_form_displayed()
+        invoice_queue_page.click_on_confirm_button()
 
         navigate_to_business_path("ACCOUNTS_PAYABLE_INVOICE_QUEUE", data['test_business1_id']);
         invoice_queue_page.filter_by_invoice(invoice_number)
         invoice_queue_page.delete_invoice(invoice_number)
      })
 
-     it.only("C18300: Cancel Docyt Check",()=>
+     it("C18300: Cancel Docyt Check",()=>
         {
             {
                 const invoice_number = "INV_" + time_helper.get_epoch_time();
