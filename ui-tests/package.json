@@ -15,7 +15,7 @@
   "dependencies": {
     "@cypress/grep": "^4.0.1",
     "@sum.cumo/cypress-testrail-reporter": "^1.6.1",
-    "cypress": "^12.17.3",
+    "cypress": "^13.10.0",
     "cypress-if": "^1.10.5",
     "cypress-parallel": "^0.13.0",
     "cypress-real-events": "^1.11.0",
