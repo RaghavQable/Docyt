@@ -82,7 +82,8 @@ Cypress.Commands.add('register_commands', () => {
         'a_by_href':                        (text)          => cy.xpath(`//a[normalize-space(@href)='${text}']`),
         'a_by_icon':                        (text)          => cy.xpath(`//*[(self::span or self::i) and contains(@class, '${text}')]/ancestor::a`),
         'select_category':                  (text)          => cy.xpath(`//a[contains(text(),'${text}')]`) ,
-        
+        'a_by_containing_id':               (text)          => cy.xpath(`(//a[contains(@id,'${text}')])`) ,
+        'a_by_containing_dot':              (text)          => cy.xpath(`//a[contains(., '${text}')]`) ,
 
         ////////////////////// BUTTON /////////////////////////
         'button_by_text':                   (text)          => cy.xpath(`(//button[normalize-space(text())='${text}']|//*[normalize-space(text())='${text}']/ancestor::button)[1]`),
