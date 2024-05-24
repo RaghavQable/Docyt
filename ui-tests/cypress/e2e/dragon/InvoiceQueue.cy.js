@@ -203,4 +203,37 @@ describe("Invoice Queue", () => {
         invoice_queue_page.verify_invoice_exists(invoice_number)
         invoice_queue_page.delete_invoice(invoice_number)
     })
+
+    // C76607 Marking an invoice as Paid using Manual Check (use Exsiting Docyt check)
+
+     it.only("C76607: Marking an invoice as Paid using Manual Check (use Exsiting Docyt check)",()=> {
+        
+        const invoice_number = "INV_" + time_helper.get_epoch_time();
+        const current_date = time_helper.get_current_date_of_month();
+        const last_date_of_month = time_helper.get_last_date_of_current_month();
+        const amount = number_helper.get_random_number(100000);
+        const invoice = {
+            "invoice_number": invoice_number,
+            "payee": data['vendor2']['name'],
+            "invoice_date": current_date,
+            "due_date": last_date_of_month,
+            "amount": amount,
+            "address": data['vendor2']['city_pin'],
+            "formatted_amount": number_helper.get_formatted_amount(amount)
+        }
+        
+        login_page.login_and_navigate_to_business_path(data['email'], data['password'], "ACCOUNTS_PAYABLE_INVOICE_QUEUE", data['test_business1_id'])
+        invoice_queue_page.verify_invoice_queue_page_displayed();
+        invoice_queue_page.click_add_invoice_button();
+        add_edit_invoice.fill_add_invoice_form_and_submit(invoice);
+        invoice_queue_page.click_on_first_row_amount_data();
+        invoice_queue_page.click_on_amount_sub_option("Verify Data");
+        add_edit_invoice.click_mark_as_verified_button();
+        cy.reload();
+        invoice_queue_page.click_on_first_row_amount_data();
+        invoice_queue_page.click_on_mark_as_paid_sub_option("Mark as paid","Manual Check");
+        invoice_queue_page.mark_as_paid_manual_flow();
+        invoice_queue_page.check_register_flow();
+     })
+
 })

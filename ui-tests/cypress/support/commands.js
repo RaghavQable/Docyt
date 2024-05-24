@@ -71,6 +71,7 @@ Cypress.Commands.add('register_commands', () => {
         'select_by_option':                 (text)          => cy.xpath(`//option[normalize-space(text())='${text}']/parent::select`),
         'option_by_text':                   (text)          => cy.xpath(`//option[normalize-space(text())='${text}']`),
         'textarea_by_label':                (text)          => cy.xpath(`//*[(self::div or self::label) and normalize-space(text())='${text}']/..//textarea`),
+        'add_invoice_input':                (text)          => cy.xpath(`(//div[text()='${text}']/following::div//input)`).eq(0),
 
         ////////////////////  ANCHOR  /////////////////////////
         'a_by_text':                        (text)          => cy.xpath(`(//a[normalize-space(text())='${text}']|//*[normalize-space(text())='${text}']/ancestor::a)[1]`),
@@ -80,6 +81,8 @@ Cypress.Commands.add('register_commands', () => {
         'a_corresponding_to_label':         (text)          => cy.xpath(`//*[(self::div or self::label) and normalize-space(text())='${text}']/..//a[normalize-space(text())='${text}']`),
         'a_by_href':                        (text)          => cy.xpath(`//a[normalize-space(@href)='${text}']`),
         'a_by_icon':                        (text)          => cy.xpath(`//*[(self::span or self::i) and contains(@class, '${text}')]/ancestor::a`),
+        'select_category':                  (text)          => cy.xpath(`//a[contains(text(),'${text}')]`) ,
+        
 
         ////////////////////// BUTTON /////////////////////////
         'button_by_text':                   (text)          => cy.xpath(`(//button[normalize-space(text())='${text}']|//*[normalize-space(text())='${text}']/ancestor::button)[1]`),
@@ -101,6 +104,8 @@ Cypress.Commands.add('register_commands', () => {
         'label_by_containing_class_and_text': (class_name, text)    => cy.xpath(`//label[contains(@class, '${class_name}') and normalize-space(text())='${text}']`),
         'label_by_for':                       (text)        => cy.xpath(`//label[@for='${text}']`),
         'strong_by_text':                     (text)        => cy.xpath(`(//strong[normalize-space(text())='${text}'])[1]`),
+        'dropdown_list_option':               (text)        =>  cy.xpath(`//span[contains(.,'${text}')]/ancestor::a`),
+        'span_by_anchor':                     (text,n)        =>  cy.xpath(`(//span[text()='${text}']/ancestor::a)[${n}]`),
 
         //////////////////// DIV CONTAINER ////////////////////
         'div_by_text':                      (text)          => cy.xpath(`//div[normalize-space(text())="${text}"]`),
@@ -140,7 +145,11 @@ Cypress.Commands.add('register_commands', () => {
         // Get all Cells under a column
         'td_div_all_column_cells':                      (column_num)            => cy.xpath(`//*[(self::div and contains(@class, 'table-column')) or self::td][${column_num}]`),
         // Get Table cell by its text
-        'td_by_text':                                   (text)                  => cy.xpath(`(//td[normalize-space(text())='${text}'])[1]`)
+        'td_by_text':                                   (text)                  => cy.xpath(`(//td[normalize-space(text())='${text}'])[1]`),
+        'get_invoice_amount_data':                      ()                      => cy.xpath(`(//table//td[contains(@class,'invoice-amount')]//button)[1]`),  
+    
+    
+    
     }
 
     for (const op in locator_list) {
