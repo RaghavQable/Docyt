@@ -170,7 +170,9 @@ function check_register_flow()
     
 }
 
-
+function verify_check_num_first_raw_data_from_table(expected){
+    return cy.get_first_raw_data_in_table('check-detail').should('contain.text', expected);
+ }
 
 
 module.exports = {
@@ -193,6 +195,7 @@ module.exports = {
     click_on_mark_as_paid_sub_option,
     mark_as_paid_manual_flow,
     check_register_flow,
-    get_random_number
+    get_random_number,
+    verify_check_num_first_raw_data_from_table
 };
   

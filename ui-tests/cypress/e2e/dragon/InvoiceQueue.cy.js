@@ -236,8 +236,13 @@ describe("Invoice Queue", () => {
         add_edit_invoice.click_continue_button_from_multiple_unpaid_invoices_detected_page();
         invoice_queue_page.mark_as_paid_manual_flow(checkNum);
         invoice_queue_page.check_register_flow();
+        //invoice_queue_page.verify_check_num_first_raw_data_from_table(checkNum)
+    
 
 
+        navigate_to_business_path("ACCOUNTS_PAYABLE_INVOICE_QUEUE", data['test_business1_id']);
+        invoice_queue_page.filter_by_invoice(invoice_number)
+        invoice_queue_page.delete_invoice(invoice_number)
      })
 
      it.only("C18300: Cancel Docyt Check",()=>

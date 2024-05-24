@@ -147,7 +147,7 @@ Cypress.Commands.add('register_commands', () => {
         // Get Table cell by its text
         'td_by_text':                                   (text)                  => cy.xpath(`(//td[normalize-space(text())='${text}'])[1]`),
         'get_invoice_amount_data':                      ()                      => cy.xpath(`(//table//td[contains(@class,'invoice-amount')]//button)[1]`),  
-    
+        'get_first_raw_data_in_table':                  (text)                  => cy.xpath(`(//td[contains(@class,'${text}')]/span)[1]`)
     
     
     }
