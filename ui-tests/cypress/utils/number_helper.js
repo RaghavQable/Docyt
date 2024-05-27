@@ -13,9 +13,19 @@ function get_formatted_amount(amount) {
 	return formattedNumber;
 }
 
+function generateRandomString(length) {
+	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	let result = '';
+	for (let i = 0; i < length; i++) {
+	  result += characters.charAt(Math.floor(Math.random() * characters.length));
+	}
+	return result;
+  }
+
 
 module.exports = {
 	get_random_number,
-	get_formatted_amount
+	get_formatted_amount,
+	generateRandomString
 };
   
