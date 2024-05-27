@@ -55,6 +55,10 @@ function createTableAlias() {
     cy.xpath("//div[contains(@class, 'invoice-queue-list')]/table").as('invoice_queue_table')
 }
 
+function createTableAlias2() {
+    cy.xpath("//div[contains(@class, 'table')]/table").as('my_expenses_table')
+}
+
 function click_first_row_amount_dropdown_option(option, sub_option='') {
     createTableAlias()
     tables.verifyTotalRows('@invoice_queue_table', 1)
@@ -226,6 +230,7 @@ module.exports = {
     verify_cancel_payment_form_displayed,
     click_on_confirm_button,
     click_on_option_by_link,
-    filter_by_check
+    filter_by_check,
+    createTableAlias2
 };
   
