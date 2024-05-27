@@ -67,6 +67,7 @@ const paths = {
   EXPENSE_REPORTS_EMPLOYEE_EXPENSES: '/expense_reports/employees',
   EXPENSE_REPORTS_CATEGORY_MANAGEMENT: '/expense_reports/category_management',
   EXPENSE_REPORTS_SETTINGS: '/expense_reports/settings',
+  EXPENSE_REPORTS_MY_EXPENSES_SUBMITTED: '/expense_reports/expenses?type=submitted',
 
   ///////////////// ACCOUNTS RECEIVABLE ///////////////
   ACCOUNTS_RECEIVABLE_INVOICES: '/accounts_receivable_service/invoices?type=completed',
