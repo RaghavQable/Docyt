@@ -46,6 +46,7 @@ Cypress.Commands.add('register_commands', () => {
         'div_toast_message':                (text)          => cy.xpath(`//div[contains(@class, 'toast-message') and normalize-space(text())='${text}']`),
         'div_vendor_name' :                 (text)          => cy.xpath(`(//div[contains(@id,'${text}')]//td[contains(@class,'pointer')]/div)[2]`), 
         'div_contain_class':                (text)          => cy.xpath(`//div[contains(@class,'${text}')]`),
+        'div_contain_span_text':            (label,text)    => cy.xpath(`//div[contains(@class,'${label}')]//span[text()='${text}']`),
 
         ////////////////////// IMAGE  /////////////////////////
         'img_docyt_logo':                   ()              => cy.xpath("//a[contains(@class,'header-logo')]/img"),
