@@ -47,6 +47,9 @@ Cypress.Commands.add('register_commands', () => {
         'div_vendor_name' :                 (text)          => cy.xpath(`(//div[contains(@id,'${text}')]//td[contains(@class,'pointer')]/div)[2]`), 
         'div_contain_class':                (text)          => cy.xpath(`//div[contains(@class,'${text}')]`),
         'div_contain_span_text':            (label,text)    => cy.xpath(`//div[contains(@class,'${label}')]//span[text()='${text}']`),
+        'div_by_following_a':               (text)          => cy.xpath(`(//div[text()='${text}']/following::a)[1]`),
+        'div_by_parent_a':                  (text)          => cy.xpath(`(//div[text()='${text}']/parent::a)[1]`),
+        'table_by_following_a':             (text)          => cy.xpath(`//table//a[contains(@id,'${text}')]`),
 
         ////////////////////// IMAGE  /////////////////////////
         'img_docyt_logo':                   ()              => cy.xpath("//a[contains(@class,'header-logo')]/img"),
@@ -64,6 +67,7 @@ Cypress.Commands.add('register_commands', () => {
         'input_by_label':                   (text)          => cy.xpath(`//*[(self::div or self::label) and normalize-space(text())="${text}"]/..//input`),
         'input_by_id':                      (text)          => cy.xpath(`//input[@id='${text}']`),
         'input_by_containing_class':        (text)          => cy.xpath(`(//input[contains(@class, '${text}')])[1]`),
+        'input_by_containing_id':           (text)          => cy.xpath(`(//input[contains(@id, '${text}')])[1]`),
         'input_checkbox':                   ()              => cy.xpath(`(//input[@type='checkbox'])[1]`),
         'input_file_type':                  ()              => cy.xpath(`(//input[@type='file'])[1]`),
         'input_by_name':                    (text)          => cy.xpath(`//input[@name='${text}']`),
