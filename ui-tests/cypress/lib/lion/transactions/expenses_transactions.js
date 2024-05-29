@@ -51,6 +51,11 @@ function uncategorize_transaction(amount) {
 	cy.wait_until_disappear_div_loading_spinner();
 }
 
+function filter_expenses_by_vendor()
+{
+     cy.input_by_placeholder('Search Vendors').type()
+}
+
 module.exports = {
 	verify_expenses_transactions_page_displayed,
 	click_first_transaction_item,
@@ -59,4 +64,5 @@ module.exports = {
 	verify_expense_transactions_details,
 	uncategorize_transaction,
 	close_transaction_details_modal,
+	filter_expenses_by_vendor,
 }
