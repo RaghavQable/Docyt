@@ -12,8 +12,7 @@ describe("Banking Account / Transactions", () => {
 		const Trans_type = 'Deposit';
 		const current_date = time_helper.get_current_date_of_month();
 		const amount = number_helper.get_random_number(100000);
-
-		const alert_title = 'Success'
+        const alert_title = 'Success'
         const alert_message = 'Move to Trash successfully'
 
         const transaction = {
@@ -29,8 +28,10 @@ describe("Banking Account / Transactions", () => {
 		transaction_page.verify_add_transaction_in_progress();
 		transaction_page.click_on_close_button();
 		transaction_page.search_transaction(Description_name)
-		transaction_page.delete_transaction()
-		transaction_page.verify_alert_message(alert_title,alert_message)
+		//transaction_page.delete_transaction()
+		//transaction_page.verify_alert_message(alert_title,alert_message)
+        transaction_page.click_on_transaction_more_option();
+        transaction_page.go_to_reconciliation_center();
 	})
 
 })

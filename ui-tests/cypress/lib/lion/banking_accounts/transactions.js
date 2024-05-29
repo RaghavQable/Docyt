@@ -68,6 +68,11 @@ function verify_alert_message(alert_title,alert_message){
     cy.div_contain_class('toast-message').should('have.text',alert_message)
 }
 
+function go_to_reconciliation_center()
+{
+    cy.div_by_parent_a('Go to Reconciliation Center').click({force:true})
+}
+
 module.exports = {
     verify_Transactions_page,
     Add_transaction_flow,
@@ -75,5 +80,7 @@ module.exports = {
     click_on_close_button,
     search_transaction,
     delete_transaction,
-    verify_alert_message
+    verify_alert_message,
+    click_on_transaction_more_option,
+    go_to_reconciliation_center
 }
