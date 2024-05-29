@@ -98,4 +98,5 @@ module.exports = {
 	move_to_trash,
 	move_to_trash_transactions,
 	verify_transaction_type,
+	wait_for_add_transaction_modal_to_disappear
 }

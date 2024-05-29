@@ -54,6 +54,7 @@ const paths = {
   RECONCILIATION_CENTER_TRANSACTION_TYPES_LOAN_PAYMENTS: '/reconciliation_center/loan_payments',
   RECONCILIATION_CENTER_CHART_OF_ACCOUNTS: '/reconciliation_center/categories',
   RECONCILIATION_CENTER_SETTINGS: '/reconciliation_center/settings',
+  RECONCILIATION_CENTER_ALL_TRANSACTIONS: '/reconciliation_center/all_transactions',
 
   ///////////////// BANKING ACCOUNTS //////////////////
   BANKING_ACCOUNTS_SUMMARY: '/banking_accounts',

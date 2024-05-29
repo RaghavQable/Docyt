@@ -105,6 +105,7 @@ Cypress.Commands.add('register_commands', () => {
         'button_by_type':                   (text)          => cy.xpath(`//button[@type='${text}']`),
         'button_by_id':                     (text)          => cy.xpath(`//button[@id='${text}']`),
         'button_by_data_id':                (text)          => cy.xpath(`//button[@data-id="${text}"]`),
+        'button_by_only_text':              (text)          => cy.xpath(`//button[text()='${text}']`),
 
         /////////// SPAN / PARAGRAPH / LABEL TEXT  ////////////
         'span_by_text':                       (text)        => cy.xpath(`//span[normalize-space(text())='${text}']`),
@@ -117,7 +118,8 @@ Cypress.Commands.add('register_commands', () => {
         'label_by_for':                       (text)        => cy.xpath(`//label[@for='${text}']`),
         'strong_by_text':                     (text)        => cy.xpath(`(//strong[normalize-space(text())='${text}'])[1]`),
         'dropdown_list_option':               (text)        =>  cy.xpath(`//span[contains(.,'${text}')]/ancestor::a`),
-        'span_by_anchor':                     (text,n)        =>  cy.xpath(`(//span[text()='${text}']/ancestor::a)[${n}]`),
+        'span_by_anchor':                     (text,n)      =>  cy.xpath(`(//span[text()='${text}']/ancestor::a)[${n}]`),
+        'span_by_contain_text':               (text)        =>  cy.xpath(`(//span[contains(text(),'${text}')]`),
 
         //////////////////// DIV CONTAINER ////////////////////
         'div_by_text':                      (text)          => cy.xpath(`//div[normalize-space(text())="${text}"]`),
@@ -159,7 +161,11 @@ Cypress.Commands.add('register_commands', () => {
         // Get Table cell by its text
         'td_by_text':                                   (text)                  => cy.xpath(`(//td[normalize-space(text())='${text}'])[1]`),
         'get_invoice_amount_data':                      ()                      => cy.xpath(`(//table//td[contains(@class,'invoice-amount')]//button)[1]`),  
-        'get_first_raw_data_in_table':                  (text)                  => cy.xpath(`(//td[contains(@class,'${text}')]/span)[1]`)
+        'get_first_raw_data_in_table':                  (text)                  => cy.xpath(`(//td[contains(@class,'${text}')]/span)[1]`),
+        'table_by_containing_td_text':                  (text)                  => cy.xpath(`//table//td[contains(text(),'${text}')]`),
+        'get_span_text_by_input':                       (text)                  => cy.xpath(`(//div[text()='${text}']//following::input[@checked]//following::label/span)[1]`),
+        'table_by_div_text':                            (text)                  => cy.xpath(`//table//div[text()='${text}']`),
+        'table_by_div_contains_text':                   (text)                  => cy.xpath(`//table//div[contains(text(),'${text}')]`),
     
     
     }
