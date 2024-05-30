@@ -22,7 +22,7 @@ function first_row_table_cell_text_present(alias, tag_name, text) {
 
 // returns true if the 'td' tag contains specified text in the first row
 function first_row_table_td_text_present(alias, text) {
-  cy.get(alias).get('tr').first().get('td').contains(text);
+  cy.get(alias).get('tr').first().get('td').contains(text).should('be.visible');
 }
 
 // click on specified tag from first row. Clicks on first match

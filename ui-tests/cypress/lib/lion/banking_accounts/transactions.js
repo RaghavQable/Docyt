@@ -61,8 +61,9 @@ function search_transaction_on_all_transaction_page(text){
 
 function search_transaction_on_income_page(text){
     cy.input_by_placeholder('Description').type(text, {force: true})
-    cy.wait_until_disappear_div_loading_spinner();
     cy.wait(2000)
+    cy.wait_until_disappear_div_loading_spinner();
+    cy.wait(1000)
 }
 
 function click_on_transaction_more_option(){
@@ -144,6 +145,11 @@ function select_vendor(text){
     cy.wait(1000)
 }
 
+function click_on_reset_filters(){
+    cy.a_by_text('Reset Filters').should('be.visible').dblclick({force:true})
+    cy.wait(3000)
+}
+
 module.exports = {
     verify_Transactions_page,
     Add_transaction_flow,
@@ -163,5 +169,6 @@ module.exports = {
     verify_transaction_present_in_income_page,
     search_transaction_on_income_page,
     verify_transaction_present_in_Expense_page,
-    select_vendor
+    select_vendor,
+    click_on_reset_filters
 }

@@ -1,4 +1,7 @@
 const tables = require("../../common/webtables/tables");
+const time_helper = require("../../../utils/time_helper")
+
+const current_date_with_format = time_helper.get_formatted_date('MM/DD/YYYY')
 
 function verify_expenses_transactions_page_displayed() {
 	cy.wait_until_visible_span_by_text('Reconciliation Center');
@@ -32,7 +35,7 @@ function verify_expense_transactions_details(amounts) {
 }
 
 function close_transaction_details_modal() {
-	cy.span_by_containing_class('icon-not-a-chargeback-icon').click({force: true});
+	cy.span_by_containing_class('icon-not-a-chargeback-icon').click({ force: true });
 }
 
 function filter_by_amount(amount) {
@@ -51,81 +54,84 @@ function uncategorize_transaction(amount) {
 	cy.wait_until_disappear_div_loading_spinner();
 }
 
-function filter_expenses_by_vendor(text)
-{
-     cy.input_by_placeholder('Search Vendors').type(text,{force:true})
-	 cy.wait_until_disappear_div_loading_spinner();
-	 cy.wait(1000)
-	 cy.strong_by_text(text).should('be.visible').click()
-     cy.wait(1000)
-	 createTableAlias();
-	 tables.verifyTotalRows('@expenses_transactions_table', 1);
-	 tables.first_row_table_td_text_present('@expenses_transactions_table',text)
-	 
+function filter_expenses_by_vendor(text) {
+	cy.input_by_placeholder('Search Vendors').type(text, { force: true })
+	cy.wait_until_disappear_div_loading_spinner();
+	cy.wait(1000)
+	cy.strong_by_text(text).should('be.visible').click()
+	cy.wait(1000)
+	createTableAlias();
+	tables.verifyTotalRows('@expenses_transactions_table', 1);
+	tables.first_row_table_td_text_present('@expenses_transactions_table', text)
+
 }
 
-function filter_expenses_by_category()
-{
-     cy.input_by_placeholder('Category').type('Fuel',{force:true})
-	 cy.wait_until_disappear_div_loading_spinner();
-	 cy.wait(2000)
-     cy.focused()
-        .type('{downarrow}', { force: true})
-        .should('exist')
-        .type('{enter}', { force: true});
-	 cy.wait(1000)
-	 createTableAlias();
-	 tables.verifyTotalRows('@expenses_transactions_table', 1);
-	 tables.first_row_table_td_text_present('@expenses_transactions_table','Fuel')
-	 
+function filter_expenses_by_category(text) {
+	cy.input_by_placeholder('Category').type(text, { force: true })
+	cy.wait_until_disappear_div_loading_spinner();
+	cy.wait(2000)
+	cy.focused()
+		.type('{downarrow}', { force: true })
+		.should('exist')
+		.type('{enter}', { force: true });
+	cy.wait(1000)
+	createTableAlias();
+	tables.verifyTotalRows('@expenses_transactions_table', 1);
+	tables.first_row_table_td_text_present('@expenses_transactions_table', text)
+
 }
 
-function filter_expenses_by_account_type()
-    {
-       cy.div_by_text('Account').click();
-	   cy.span_by_text_with_ancestor_a('Bank Account').trigger('mouseover').click();
-	   cy.wait_until_disappear_div_loading_spinner();
-	   cy.wait(1000);
-	   createTableAlias();
-	   tables.verifyTotalRows('@expenses_transactions_table', 1);
-	   tables.first_row_table_td_text_present('@expenses_transactions_table','Bank Account');
+function filter_expenses_by_account_type() {
+	cy.div_by_text('Account').click();
+	cy.span_by_text_with_ancestor_a('Bank Account').trigger('mouseover').click();
+	cy.wait_until_disappear_div_loading_spinner();
+	cy.wait(1000);
+	createTableAlias();
+	tables.verifyTotalRows('@expenses_transactions_table', 1);
+	tables.first_row_table_td_text_present('@expenses_transactions_table', 'Bank Account');
+}
+
+function filter_expenses_by_from_date() {
+	cy.input_by_placeholder('From').type(current_date_with_format, { force: true })
+	cy.wait_until_disappear_div_loading_spinner();
+	createTableAlias();
+	tables.verifyTotalRows('@expenses_transactions_table', 1);
+	tables.first_row_table_td_text_present('@expenses_transactions_table', current_date_with_format);
+}
+
+
+function filter_expenses_by_to_date() {
+	cy.input_by_placeholder('To').type(current_date_with_format, { force: true })
+	cy.wait_until_disappear_div_loading_spinner();
+	createTableAlias();
+	tables.verifyTotalRows('@expenses_transactions_table', 1);
+	tables.first_row_table_td_text_present('@expenses_transactions_table', current_date_with_format);
+}
+
+function filter_expenses_by_description(description) {
+	cy.input_by_placeholder('Description').clear().type(description, { force: true })
+	cy.wait_until_disappear_div_loading_spinner();
+	createTableAlias();
+	tables.verifyTotalRows('@expenses_transactions_table', 1);
+	tables.first_row_table_td_text_present('@expenses_transactions_table', description);
+}
+
+function filter_expenses_by_amount2(amount) {
+	// Function to format the amount
+	function formatAmount(amount) {
+		return new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'USD',
+		}).format(amount);
 	}
 
-function filter_expenses_by_from_date()
-     {
-        cy.input_by_placeholder('From').type('Date',{force:true}).click();
-		cy.wait_until_disappear_div_loading_spinner();
-		createTableAlias();
-	    tables.verifyTotalRows('@expenses_transactions_table', 1);
-	    tables.first_row_table_td_text_present('@expenses_transactions_table','Date');
-     }
+	const formattedAmount = formatAmount(amount);
 
-
-function filter_expenses_by_to_date()
-     {
-        cy.input_by_placeholder('To').type('Date',{force:true}).click();
-		cy.wait_until_disappear_div_loading_spinner();
-		createTableAlias();
-	    tables.verifyTotalRows('@expenses_transactions_table', 1);
-	    tables.first_row_table_td_text_present('@expenses_transactions_table','date');
-     }	
-	 
-function filter_expenses_by_description()
-{
-	cy.input_by_placeholder('Description').type('random description',{force:true})
+	cy.input_by_placeholder('$ Amount').type(amount, { force: true });
 	cy.wait_until_disappear_div_loading_spinner();
 	createTableAlias();
 	tables.verifyTotalRows('@expenses_transactions_table', 1);
-	tables.first_row_table_td_text_present('@expenses_transactions_table','random description');
-}
-
-function filter_expenses_by_amount2()
-{
-	cy.input_by_placeholder('$ Amount').type('random amount',{force:true})
-	cy.wait_until_disappear_div_loading_spinner();
-	createTableAlias();
-	tables.verifyTotalRows('@expenses_transactions_table', 1);
-	tables.first_row_table_td_text_present('@expenses_transactions_table','random amount');
+	tables.first_row_table_td_text_present('@expenses_transactions_table', formattedAmount);
 }
 
 module.exports = {
