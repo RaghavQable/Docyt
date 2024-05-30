@@ -129,7 +129,7 @@ function select_category_flow(text){
     cy.wait(2000)
     cy.button_by_text('Save').click({force:true})
     cy.wait(1000)
-    cy.button_by_only_text('Categorize Transaction').click()
+    cy.button_by_only_text('Categorize Transaction').click({force:true})
     cy.wait(2000)
     cy.button_by_only_text('Close').click()
     cy.wait(1000)

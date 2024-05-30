@@ -1,4 +1,7 @@
-const tables = require("../../common/webtables/tables")
+const tables = require("../../common/webtables/tables");
+const time_helper = require("../../../utils/time_helper")
+
+const current_date_with_format = time_helper.get_formatted_date('MM/DD/YYYY')
 
 function verify_income_transactions_page_displayed() {
 	cy.wait_until_visible_span_by_text('Reconciliation Center');
@@ -50,49 +53,61 @@ function filter_incomes_by_payment_mode(text)
 function filter_incomes_by_account_type()
     {
        cy.div_by_text('Account').click();
-	   cy.span_by_text_with_ancestor_a('Bank Account').trigger('mouseover').click();
+	   cy.span_by_text_with_ancestor_a().trigger('mouseover').click();
 	   cy.wait_until_disappear_div_loading_spinner();
 	   cy.wait(1000);
 	   createTableAlias();
+
+
 	   tables.verifyTotalRows('@income_transactions_table', 1);
 	   tables.first_row_table_td_text_present('@income_transactions_table','Bank Account');
 	}
 
 function filter_incomes_by_from_date()
      {
-        cy.input_by_placeholder('From').type('Date',{force:true}).click();
+        cy.input_by_placeholder('From').type(current_date_with_format,{force:true}).click();
 		cy.wait_until_disappear_div_loading_spinner();
 		createTableAlias();
 	    tables.verifyTotalRows('@income_transactions_table', 1);
-	    tables.first_row_table_td_text_present('@income_transactions_table','Date');
+	    tables.first_row_table_td_text_present('@income_transactions_table',current_date_with_format);
      }
 
 
 function filter_incomes_by_to_date()
      {
-        cy.input_by_placeholder('To').type('Date',{force:true}).click();
+        cy.input_by_placeholder('To').type(current_date_with_format,{force:true}).click();
 		cy.wait_until_disappear_div_loading_spinner();
 		createTableAlias();
 	    tables.verifyTotalRows('@income_transactions_table', 1);
-	    tables.first_row_table_td_text_present('@income_transactions_table','date');
+	    tables.first_row_table_td_text_present('@income_transactions_table',current_date_with_format);
      }	
 	 
-function filter_incomes_by_description()
+function filter_incomes_by_description(description)
 {
-	cy.input_by_placeholder('Description').type('random description',{force:true})
+	cy.input_by_placeholder('Description').clear().type(description,{force:true})
 	cy.wait_until_disappear_div_loading_spinner();
 	createTableAlias();
 	tables.verifyTotalRows('@income_transactions_table', 1);
-	tables.first_row_table_td_text_present('@income_transactions_table','random description');
+	tables.first_row_table_td_text_present('@income_transactions_table',description);
 }
 
-function filter_incomes_by_amount2()
+function filter_incomes_by_amount2(amount)
 {
-	cy.input_by_placeholder('$ Amount').type('random amount',{force:true})
+	function formatAmount(amount) {
+		return new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'USD',
+		}).format(amount);
+	}
+
+	const formattedAmount = formatAmount(amount);
+
+	cy.input_by_placeholder('$ Amount').type(amount, { force: true });
 	cy.wait_until_disappear_div_loading_spinner();
+
 	createTableAlias();
 	tables.verifyTotalRows('@income_transactions_table', 1);
-	tables.first_row_table_td_text_present('@income_transactions_table','random amount');
+	tables.first_row_table_td_text_present('@income_transactions_table',formattedAmount);
 }
 
 module.exports = {

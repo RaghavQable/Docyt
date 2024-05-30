@@ -84,36 +84,66 @@ describe("Reconciliation Center / Transactions List", () => {
 
     })
 
-    it("C12979: Filter Incomes", () => {
-        //By Vendor
-        login_page.login_and_navigate_to_business_path(data['email'], data['password'], "RECONCILIATION_CENTER_TRANSACTION_TYPES_INCOME", data['test_business1_id'])
+    it.only("C12979: Filter Incomes", () => {
+        const Description_name = number_helper.generateRandomString(10);
+		const deposit_Trans_type = 'Deposit';
+		const current_date = time_helper.get_current_date_of_month();
+		const amount = number_helper.get_random_number(100000);
+
+        const deposit_transaction = {
+            "Date": current_date,
+            "Description": Description_name,
+            "Type": deposit_Trans_type,
+			"Amount": amount
+        }
+
+        login_page.login_and_navigate_to_business_path(data['email'], data['password'], "BANKING_ACCOUNTS_TRANSACTIONS", data['test_business1_id'])
+        transaction_page.verify_Transactions_page();
+		transaction_page.Add_transaction_flow(deposit_transaction);
+		transaction_page.verify_add_transaction_in_progress();
+		transaction_page.click_on_close_button();
+		transaction_page.search_transaction(Description_name)	
+        transaction_page.click_on_transaction_more_option();
+        transaction_page.go_to_reconciliation_center();
+		transaction_page.verify_transaction_present_in_reconciliation_center(Description_name)
+		transaction_page.click_on_transaction_in_reconciliation_center(Description_name)
+	
+		transaction_page.get_transaction_type_and_verify('Income')
+		transaction_page.select_category_flow('Test')
+
+        navigate_to_business_path("RECONCILIATION_CENTER_TRANSACTION_TYPES_INCOME", data['test_business1_id'])
         income_transactions_page.verify_income_transactions_page_displayed();
-        income_transactions_page.filter_expenses_by_vendor(data['vendor1']['name']);
 
         //By Account Type
-        navigate_to_business_path("RECONCILIATION_CENTER_TRANSACTION_TYPES_INCOME", data['test_business1_id'])
-        income_transactions_page.verify_income_transactions_page_displayed();
+        transaction_page.search_transaction_on_income_page(Description_name)
         income_transactions_page.filter_incomes_by_account_type();
+        transaction_page.click_on_reset_filters();
+
 
         //By From Date
-        navigate_to_business_path("RECONCILIATION_CENTER_TRANSACTION_TYPES_INCOME", data['test_business1_id'])
-        income_transactions_page.verify_income_transactions_page_displayed();
+        transaction_page.search_transaction_on_income_page(Description_name)
         income_transactions_page.filter_incomes_by_from_date();
+        transaction_page.click_on_reset_filters();
+
 
         //By To Date
-        navigate_to_business_path("RECONCILIATION_CENTER_TRANSACTION_TYPES_INCOME", data['test_business1_id'])
-        income_transactions_page.verify_income_transactions_page_displayed();
+        transaction_page.search_transaction_on_income_page(Description_name)
         income_transactions_page.filter_incomes_by_to_date();
+        transaction_page.click_on_reset_filters();
 
         //By Description
-        navigate_to_business_path("RECONCILIATION_CENTER_TRANSACTION_TYPES_INCOME", data['test_business1_id'])
-        income_transactions_page.verify_income_transactions_page_displayed();
-        income_transactions_page.filter_incomes_by_description();
+        income_transactions_page.filter_incomes_by_description(Description_name);
+        transaction_page.click_on_reset_filters();
 
         //By Amount
-        navigate_to_business_path("RECONCILIATION_CENTER_TRANSACTION_TYPES_INCOME", data['test_business1_id'])
-        income_transactions_page.verify_income_transactions_page_displayed();
-        income_transactions_page.filter_incomes_by_amount2();
+        transaction_page.search_transaction_on_income_page(Description_name)
+        income_transactions_page.filter_incomes_by_amount2(amount);
+        transaction_page.click_on_reset_filters();
+
+
+        navigate_to_business_path('BANKING_ACCOUNTS_TRANSACTIONS', data['test_business1_id'])
+        transaction_page.search_transaction(Description_name)
+        transaction_page.delete_transaction(Description_name)
 
     })
 
