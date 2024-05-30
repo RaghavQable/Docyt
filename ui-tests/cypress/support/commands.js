@@ -117,9 +117,10 @@ Cypress.Commands.add('register_commands', () => {
         'label_by_containing_class_and_text': (class_name, text)    => cy.xpath(`//label[contains(@class, '${class_name}') and normalize-space(text())='${text}']`),
         'label_by_for':                       (text)        => cy.xpath(`//label[@for='${text}']`),
         'strong_by_text':                     (text)        => cy.xpath(`(//strong[normalize-space(text())='${text}'])[1]`),
-        'dropdown_list_option':               (text)        =>  cy.xpath(`//span[contains(.,'${text}')]/ancestor::a`),
-        'span_by_anchor':                     (text,n)      =>  cy.xpath(`(//span[text()='${text}']/ancestor::a)[${n}]`),
-        'span_by_contain_text':               (text)        =>  cy.xpath(`(//span[contains(text(),'${text}')]`),
+        'dropdown_list_option':               (text)        => cy.xpath(`//span[contains(.,'${text}')]/ancestor::a`),
+        'span_by_anchor':                     (text,n)      => cy.xpath(`(//span[text()='${text}']/ancestor::a)[${n}]`),
+        'span_by_contain_text':               (text)        => cy.xpath(`(//span[contains(text(),'${text}')]`),
+        'span_by_text_with_ancestor_a':       (text)        => cy.xpath(`//span[text()='${text}']//ancestor::a`),
 
         //////////////////// DIV CONTAINER ////////////////////
         'div_by_text':                      (text)          => cy.xpath(`//div[normalize-space(text())="${text}"]`),

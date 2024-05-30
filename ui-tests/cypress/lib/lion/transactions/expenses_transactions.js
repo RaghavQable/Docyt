@@ -51,9 +51,81 @@ function uncategorize_transaction(amount) {
 	cy.wait_until_disappear_div_loading_spinner();
 }
 
-function filter_expenses_by_vendor()
+function filter_expenses_by_vendor(text)
 {
-     cy.input_by_placeholder('Search Vendors').type()
+     cy.input_by_placeholder('Search Vendors').type(text,{force:true})
+	 cy.wait_until_disappear_div_loading_spinner();
+	 cy.wait(1000)
+	 cy.strong_by_text(text).should('be.visible').click()
+     cy.wait(1000)
+	 createTableAlias();
+	 tables.verifyTotalRows('@expenses_transactions_table', 1);
+	 tables.first_row_table_td_text_present('@expenses_transactions_table',text)
+	 
+}
+
+function filter_expenses_by_category()
+{
+     cy.input_by_placeholder('Category').type('Fuel',{force:true})
+	 cy.wait_until_disappear_div_loading_spinner();
+	 cy.wait(2000)
+     cy.focused()
+        .type('{downarrow}', { force: true})
+        .should('exist')
+        .type('{enter}', { force: true});
+	 cy.wait(1000)
+	 createTableAlias();
+	 tables.verifyTotalRows('@expenses_transactions_table', 1);
+	 tables.first_row_table_td_text_present('@expenses_transactions_table','Fuel')
+	 
+}
+
+function filter_expenses_by_account_type()
+    {
+       cy.div_by_text('Account').click();
+	   cy.span_by_text_with_ancestor_a('Bank Account').trigger('mouseover').click();
+	   cy.wait_until_disappear_div_loading_spinner();
+	   cy.wait(1000);
+	   createTableAlias();
+	   tables.verifyTotalRows('@expenses_transactions_table', 1);
+	   tables.first_row_table_td_text_present('@expenses_transactions_table','Bank Account');
+	}
+
+function filter_expenses_by_from_date()
+     {
+        cy.input_by_placeholder('From').type('Date',{force:true}).click();
+		cy.wait_until_disappear_div_loading_spinner();
+		createTableAlias();
+	    tables.verifyTotalRows('@expenses_transactions_table', 1);
+	    tables.first_row_table_td_text_present('@expenses_transactions_table','Date');
+     }
+
+
+function filter_expenses_by_to_date()
+     {
+        cy.input_by_placeholder('To').type('Date',{force:true}).click();
+		cy.wait_until_disappear_div_loading_spinner();
+		createTableAlias();
+	    tables.verifyTotalRows('@expenses_transactions_table', 1);
+	    tables.first_row_table_td_text_present('@expenses_transactions_table','date');
+     }	
+	 
+function filter_expenses_by_description()
+{
+	cy.input_by_placeholder('Description').type('random description',{force:true})
+	cy.wait_until_disappear_div_loading_spinner();
+	createTableAlias();
+	tables.verifyTotalRows('@expenses_transactions_table', 1);
+	tables.first_row_table_td_text_present('@expenses_transactions_table','random description');
+}
+
+function filter_expenses_by_amount2()
+{
+	cy.input_by_placeholder('$ Amount').type('random amount',{force:true})
+	cy.wait_until_disappear_div_loading_spinner();
+	createTableAlias();
+	tables.verifyTotalRows('@expenses_transactions_table', 1);
+	tables.first_row_table_td_text_present('@expenses_transactions_table','random amount');
 }
 
 module.exports = {
@@ -65,4 +137,10 @@ module.exports = {
 	uncategorize_transaction,
 	close_transaction_details_modal,
 	filter_expenses_by_vendor,
+	filter_expenses_by_category,
+	filter_expenses_by_account_type,
+	filter_expenses_by_from_date,
+	filter_expenses_by_to_date,
+	filter_expenses_by_description,
+	filter_expenses_by_amount2,
 }
