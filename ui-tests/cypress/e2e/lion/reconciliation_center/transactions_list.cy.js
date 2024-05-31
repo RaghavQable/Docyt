@@ -84,7 +84,7 @@ describe("Reconciliation Center / Transactions List", () => {
 
     })
 
-    it.only("C12979: Filter Incomes", () => {
+    it("C12979: Filter Incomes", () => {
         const Description_name = number_helper.generateRandomString(10);
 		const deposit_Trans_type = 'Deposit';
 		const current_date = time_helper.get_current_date_of_month();
