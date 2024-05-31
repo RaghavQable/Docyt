@@ -165,14 +165,29 @@ function click_on_categorize_button(){
     cy.button_by_only_text('Categorize Transaction').click({force:true})
     cy.wait(2000)
 
-    if (cy.button_by_only_text('Close').should('be.visible')){
-    cy.button_by_only_text('Close').click()
-    cy.wait(1000)
-    }
-    else {
-    cy.a_by_containing_class('close').click()
-    cy.wait(1000)
-    }
+    function click_on_categorize_button() {
+        cy.button_by_only_text('Categorize Transaction').click({ force: true });
+        cy.wait(2000);
+    
+        cy.button_by_only_text('Close').then(($btn) => {
+            if ($btn.is(':visible')) {
+                cy.wrap($btn).click();
+            } else {
+                // Do nothing if the button is not visible
+            }
+        });
+    
+        cy.a_by_containing_class('close').then(($btn) => {
+            if ($btn.is(':visible')) {
+                cy.wrap($btn).click();
+            } else {
+                // Do nothing if the button is not visible
+            }
+        });
+    
+        cy.wait(1000);
+    
+}
 }
 
 module.exports = {
