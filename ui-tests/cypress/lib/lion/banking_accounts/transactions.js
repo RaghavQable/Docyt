@@ -120,7 +120,7 @@ function select_category_flow(text){
     cy.wait(1000)
     cy.input_by_placeholder('Select Chart of Account').click({force:true})
     cy.wait(1000)
-    cy.input_by_placeholder('Select Chart of Account').type(text,{force:true, delay: 1000})
+    cy.input_by_placeholder('Select Chart of Account').type(text,{force:true, delay: 2000})
     cy.wait(1000)
     cy.focused()
         .type('{downarrow}', { force: true})

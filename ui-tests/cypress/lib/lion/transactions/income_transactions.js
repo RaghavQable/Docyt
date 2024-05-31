@@ -53,7 +53,7 @@ function filter_incomes_by_payment_mode(text)
 function filter_incomes_by_account_type()
     {
        cy.div_by_text('Account').click();
-	   cy.span_by_text_with_ancestor_a().trigger('mouseover').click();
+	   cy.span_by_text_with_ancestor_a('Bank Account').trigger('mouseover').click();
 	   cy.wait_until_disappear_div_loading_spinner();
 	   cy.wait(1000);
 	   createTableAlias();
