@@ -119,7 +119,7 @@ Cypress.Commands.add('register_commands', () => {
         'strong_by_text':                     (text)        => cy.xpath(`(//strong[normalize-space(text())='${text}'])[1]`),
         'dropdown_list_option':               (text)        => cy.xpath(`//span[contains(.,'${text}')]/ancestor::a`),
         'span_by_anchor':                     (text,n)      => cy.xpath(`(//span[text()='${text}']/ancestor::a)[${n}]`),
-        'span_by_contain_text':               (text)        => cy.xpath(`(//span[contains(text(),'${text}')]`),
+        'span_by_contain_text':               (text,...n)   => cy.xpath(`//span[contains(text(),'${text}')]`).eq(n),
         'span_by_text_with_ancestor_a':       (text)        => cy.xpath(`//span[text()='${text}']//ancestor::a`),
 
         //////////////////// DIV CONTAINER ////////////////////
@@ -167,6 +167,8 @@ Cypress.Commands.add('register_commands', () => {
         'get_span_text_by_input':                       (text)                  => cy.xpath(`(//div[text()='${text}']//following::input[@checked]//following::label/span)[1]`),
         'table_by_div_text':                            (text)                  => cy.xpath(`//table//div[text()='${text}']`),
         'table_by_div_contains_text':                   (text)                  => cy.xpath(`//table//div[contains(text(),'${text}')]`),
+        'change_transaction_type':                      (text)                  => cy.xpath(`//label[span[text()='${text}']]/preceding-sibling::input`),
+        'select_from_account':                          (text)                  => cy.xpath(`(//div[text()='${text}']//following::button)[1]`),
     
     
     }

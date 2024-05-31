@@ -29,9 +29,10 @@ function select_type(label,text){
     cy.input_by_containing_id(label).clear().type(text, {force: true})
     cy.wait(1000)
     cy.focused()
-        .type('{downarrow}', { force: true})
-        .should('exist')
-        .type('{enter}', { force: true});
+    .type('{downarrow}', { force: true})
+    .should('exist')
+    .type('{enter}', { force: true});
+    cy.wait(500)
 }
 
 function click_on_Add_button(){
@@ -150,6 +151,30 @@ function click_on_reset_filters(){
     cy.wait(3000)
 }
 
+function change_transaction_type_in_categorize_transaction(text){
+    cy.change_transaction_type(text).click({force:true})
+}
+
+function select_from_account(text){
+    cy.select_from_account('From Account*').scrollIntoView().click()
+    cy.span_by_contain_text(text).eq(0).should('be.visible').click()
+    cy.wait(1000)
+}
+
+function click_on_categorize_button(){
+    cy.button_by_only_text('Categorize Transaction').click({force:true})
+    cy.wait(2000)
+
+    if (cy.button_by_only_text('Close').should('be.visible')){
+    cy.button_by_only_text('Close').click()
+    cy.wait(1000)
+    }
+    else {
+    cy.a_by_containing_class('close').click()
+    cy.wait(1000)
+    }
+}
+
 module.exports = {
     verify_Transactions_page,
     Add_transaction_flow,
@@ -170,5 +195,8 @@ module.exports = {
     search_transaction_on_income_page,
     verify_transaction_present_in_Expense_page,
     select_vendor,
-    click_on_reset_filters
+    click_on_reset_filters,
+    change_transaction_type_in_categorize_transaction,
+    select_from_account,
+    click_on_categorize_button
 }

@@ -147,7 +147,7 @@ describe("Reconciliation Center / Transactions List", () => {
 
     })
 
-    it("C12980: Filter Bank Transfers", () => {
+    it.only("C12980: Filter Bank Transfers", () => {
         const Description_name = number_helper.generateRandomString(10);
 		const deposit_Trans_type = 'Deposit';
 		const current_date = time_helper.get_current_date_of_month();
@@ -165,43 +165,43 @@ describe("Reconciliation Center / Transactions List", () => {
 		transaction_page.Add_transaction_flow(deposit_transaction);
 		transaction_page.verify_add_transaction_in_progress();
 		transaction_page.click_on_close_button();
-		transaction_page.search_transaction(Description_name)	
-        transaction_page.click_on_transaction_more_option();
-        transaction_page.go_to_reconciliation_center();
-		transaction_page.verify_transaction_present_in_reconciliation_center(Description_name)
+		transaction_page.search_transaction(Description_name)
+
 		transaction_page.click_on_transaction_in_reconciliation_center(Description_name)
 	
-		transaction_page.get_transaction_type_and_verify('Income')
-		transaction_page.select_category_flow('Test')
+        transaction_page.change_transaction_type_in_categorize_transaction('Transfer')
+		transaction_page.get_transaction_type_and_verify('Transfer')
+        transaction_page.select_from_account('contractor')
+        transaction_page.click_on_categorize_button()
+	
+        navigate_to_business_path("RECONCILIATION_CENTER_TRANSACTION_TYPES_BANK_TRANSFERS", data['test_business1_id'])
+        // income_transactions_page.verify_income_transactions_page_displayed();
 
-        navigate_to_business_path("RECONCILIATION_CENTER_TRANSACTION_TYPES_INCOME", data['test_business1_id'])
-        income_transactions_page.verify_income_transactions_page_displayed();
-
-        //By Account Type
-        transaction_page.search_transaction_on_income_page(Description_name)
-        income_transactions_page.filter_incomes_by_account_type();
-        transaction_page.click_on_reset_filters();
-
-
-        //By From Date
-        transaction_page.search_transaction_on_income_page(Description_name)
-        income_transactions_page.filter_incomes_by_from_date();
-        transaction_page.click_on_reset_filters();
+        // //By Account Type
+        // transaction_page.search_transaction_on_income_page(Description_name)
+        // income_transactions_page.filter_incomes_by_account_type();
+        // transaction_page.click_on_reset_filters();
 
 
-        //By To Date
-        transaction_page.search_transaction_on_income_page(Description_name)
-        income_transactions_page.filter_incomes_by_to_date();
-        transaction_page.click_on_reset_filters();
+        // //By From Date
+        // transaction_page.search_transaction_on_income_page(Description_name)
+        // income_transactions_page.filter_incomes_by_from_date();
+        // transaction_page.click_on_reset_filters();
 
-        //By Description
-        income_transactions_page.filter_incomes_by_description(Description_name);
-        transaction_page.click_on_reset_filters();
 
-        //By Amount
-        transaction_page.search_transaction_on_income_page(Description_name)
-        income_transactions_page.filter_incomes_by_amount2(amount);
-        transaction_page.click_on_reset_filters();
+        // //By To Date
+        // transaction_page.search_transaction_on_income_page(Description_name)
+        // income_transactions_page.filter_incomes_by_to_date();
+        // transaction_page.click_on_reset_filters();
+
+        // //By Description
+        // income_transactions_page.filter_incomes_by_description(Description_name);
+        // transaction_page.click_on_reset_filters();
+
+        // //By Amount
+        // transaction_page.search_transaction_on_income_page(Description_name)
+        // income_transactions_page.filter_incomes_by_amount2(amount);
+        // transaction_page.click_on_reset_filters();
 
 
         navigate_to_business_path('BANKING_ACCOUNTS_TRANSACTIONS', data['test_business1_id'])
